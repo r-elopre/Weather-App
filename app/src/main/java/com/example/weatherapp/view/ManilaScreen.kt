@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.R
 import com.example.weatherapp.ui.theme.CloudyGradientBackground
 import com.example.weatherapp.viewModel.ManilaWeatherViewModel
@@ -78,24 +79,36 @@ fun ManilaScreen(viewModel: ManilaWeatherViewModel = viewModel()) {
                             .background(Color.White.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
                             .padding(10.dp)
                     ) {
-                        Column {
-                            Text(
-                                text = "Manila",
-                                color = Color.Black,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium
+                        Row {
+                            Column {
+                                Text(
+                                    text = "Manila",
+                                    color = Color.Black,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+
+                                Text(
+                                    text = data.current.condition.text,
+                                    color = Color.Black,
+                                    fontSize = 35.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    fontStyle = FontStyle.Italic,
+                                    style = TextStyle(
+                                        lineHeight = 30.sp // Adjust the value as needed
+                                    )
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Image(
+                                painter = rememberAsyncImagePainter("https:${data.current.condition.icon}"),
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp)
                             )
 
-                            Text(
-                                text = data.current.condition.text,
-                                color = Color.Black,
-                                fontSize = 35.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontStyle = FontStyle.Italic,
-                                style = TextStyle(
-                                    lineHeight = 30.sp // Adjust the value as needed
-                                )
-                            )
+                            //please display the icon here
+
                         }
 
                     }

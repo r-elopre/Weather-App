@@ -20,8 +20,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.R
 import com.example.weatherapp.ui.theme.CloudyGradientBackground
+import com.example.weatherapp.ui.theme.SunnyGradientBackground
 import com.example.weatherapp.viewModel.DavaoWeatherViewModel
 
 @Composable
@@ -77,25 +79,38 @@ fun DavaoScreen(viewModel: DavaoWeatherViewModel = viewModel()) {
                             .background(Color.White.copy(alpha = 0.5f), RoundedCornerShape(10.dp))
                             .padding(10.dp)
                     ) {
-                        Column {
-                            Text(
-                                text = "Davao",
-                                color = Color.Black,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium
+                        Row {
+                            Column {
+                                Text(
+                                    text = "Davao",
+                                    color = Color.Black,
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Medium
+                                )
+
+                                Text(
+                                    text = data.current.condition.text,
+                                    color = Color.Black,
+                                    fontSize = 35.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    fontStyle = FontStyle.Italic,
+                                    style = TextStyle(
+                                        lineHeight = 30.sp // Adjust the value as needed
+                                    )
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(16.dp))
+
+                            Image(
+                                painter = rememberAsyncImagePainter("https:${data.current.condition.icon}"),
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp)
                             )
 
-                            Text(
-                                text = data.current.condition.text,
-                                color = Color.Black,
-                                fontSize = 35.sp,
-                                fontWeight = FontWeight.Medium,
-                                fontStyle = FontStyle.Italic,
-                                style = TextStyle(
-                                    lineHeight = 30.sp // Adjust the value as needed
-                                )
-                            )
+                            //please display the icon here
                         }
+
                     }
                 }
                 Box(
@@ -113,23 +128,23 @@ fun DavaoScreen(viewModel: DavaoWeatherViewModel = viewModel()) {
                             WeatherInfoBox(
                                 title = "Wind",
                                 value = "${data.current.wind_kph} km/h",
-                                brush = CloudyGradientBackground
+                                brush = SunnyGradientBackground
                             )
                             WeatherInfoBox(
                                 title = "Pressure",
                                 value = "${data.current.pressure_mb} MB",
-                                brush = CloudyGradientBackground
+                                brush = SunnyGradientBackground
                             )
                             WeatherInfoBox(
                                 title = "Humidity",
                                 value = "${data.current.humidity}%",
-                                brush = CloudyGradientBackground
+                                brush = SunnyGradientBackground
                             )
                         } ?: run {
                             // Placeholder while loading
-                            WeatherInfoBox(title = "Wind", value = "Loading...", brush = CloudyGradientBackground)
-                            WeatherInfoBox(title = "Pressure", value = "Loading...", brush = CloudyGradientBackground)
-                            WeatherInfoBox(title = "Humidity", value = "Loading...", brush = CloudyGradientBackground)
+                            WeatherInfoBox(title = "Wind", value = "Loading...", brush = SunnyGradientBackground)
+                            WeatherInfoBox(title = "Pressure", value = "Loading...", brush = SunnyGradientBackground)
+                            WeatherInfoBox(title = "Humidity", value = "Loading...", brush = SunnyGradientBackground)
                         }
                     }
                 }

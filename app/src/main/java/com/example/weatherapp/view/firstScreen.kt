@@ -6,18 +6,20 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.weatherapp.functions.AuthTextFields
+import com.example.weatherapp.functions.firstScreen.AuthTextFields
+import com.example.weatherapp.functions.firstScreen.CreateAccountDialog
 
 @Composable
 fun FirstScreen(onAuthenticated: () -> Unit) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp), // Added padding for better layout
+            .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -36,19 +38,23 @@ fun FirstScreen(onAuthenticated: () -> Unit) {
                 onAuthenticated()
             },
             modifier = Modifier
-                .fillMaxWidth(0.8f) // Set the width of the button to 80% of the parent's width
+                .fillMaxWidth(0.8f)
         ) {
             Text("Sign In")
         }
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                // This button does not navigate to RizalScreen
+                showDialog = true
             },
             modifier = Modifier
-                .fillMaxWidth(0.8f) // Set the width of the button to 80% of the parent's width
+                .fillMaxWidth(0.8f)
         ) {
             Text("Create Account")
         }
+    }
+
+    if (showDialog) {
+        CreateAccountDialog(onDismiss = { showDialog = false })
     }
 }

@@ -1,4 +1,4 @@
-package com.example.weatherapp.functions
+package com.example.weatherapp.functions.firstScreen
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions

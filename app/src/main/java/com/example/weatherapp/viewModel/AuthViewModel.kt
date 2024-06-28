@@ -47,4 +47,8 @@ class AuthViewModel : ViewModel() {
                 }
         }
     }
+
+    fun getCurrentUserName(): String? {
+        return auth.currentUser?.displayName
+    }
 }

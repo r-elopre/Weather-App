@@ -1,15 +1,18 @@
 package com.example.weatherapp.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weatherapp.function.firstScreen.AuthTextFields
 import com.example.weatherapp.function.firstScreen.CreateAccountDialog
+import com.example.weatherapp.ui.theme.WinterGradientBackground
 import com.example.weatherapp.viewModel.AuthViewModel
 
 @Composable
@@ -20,6 +23,12 @@ fun FirstScreen(onAuthenticated: () -> Unit) {
     var showDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     val authViewModel: AuthViewModel = viewModel()
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(WinterGradientBackground)
+    )
 
     Column(
         modifier = Modifier

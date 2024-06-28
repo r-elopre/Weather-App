@@ -6,9 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.weatherapp.functions.firstScreen.AuthTextFields
-import com.example.weatherapp.functions.firstScreen.CreateAccountDialog
+import com.example.weatherapp.function.firstScreen.AuthTextFields
+import com.example.weatherapp.function.firstScreen.CreateAccountDialog
 import com.example.weatherapp.viewModel.AuthViewModel
 
 @Composable
@@ -17,6 +18,7 @@ fun FirstScreen(onAuthenticated: () -> Unit) {
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
     val authViewModel: AuthViewModel = viewModel()
 
     Column(
@@ -34,11 +36,26 @@ fun FirstScreen(onAuthenticated: () -> Unit) {
             passwordVisible = passwordVisible,
             onPasswordVisibilityChange = { passwordVisible = !passwordVisible }
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage!!,
+                color = MaterialTheme.colorScheme.error,
+                fontSize = 14.sp,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(0.8f)
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
         Button(
             onClick = {
-                // Simulate authentication
-                onAuthenticated()
+                authViewModel.signIn(username, password) { success, message ->
+                    if (success) {
+                        onAuthenticated()
+                    } else {
+                        errorMessage = message
+                    }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth(0.8f)

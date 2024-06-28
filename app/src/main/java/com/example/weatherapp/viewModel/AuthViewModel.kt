@@ -34,4 +34,17 @@ class AuthViewModel : ViewModel() {
                 }
         }
     }
+
+    fun signIn(username: String, password: String, onResult: (Boolean, String?) -> Unit) {
+        viewModelScope.launch {
+            auth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        onResult(true, null)
+                    } else {
+                        onResult(false, task.exception?.message)
+                    }
+                }
+        }
+    }
 }

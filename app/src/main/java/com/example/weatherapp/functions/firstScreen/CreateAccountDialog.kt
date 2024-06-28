@@ -14,13 +14,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.weatherapp.viewModel.AuthViewModel
 
 @Composable
-fun CreateAccountDialog(onDismiss: () -> Unit) {
+fun CreateAccountDialog(onDismiss: () -> Unit, authViewModel: AuthViewModel = viewModel()) {
     var name by remember { mutableStateOf("") }
     var newUsername by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var newPasswordVisible by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
 
     Dialog(onDismissRequest = { onDismiss() }) {
         Surface(
@@ -36,6 +39,10 @@ fun CreateAccountDialog(onDismiss: () -> Unit) {
             ) {
                 Text(text = "Create Account", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(16.dp))
+                if (errorMessage != null) {
+                    Text(text = errorMessage!!, color = MaterialTheme.colorScheme.error)
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
                 TextField(
                     value = name,
                     onValueChange = { name = it },
@@ -77,8 +84,13 @@ fun CreateAccountDialog(onDismiss: () -> Unit) {
                         Text("Cancel")
                     }
                     TextButton(onClick = {
-                        // Handle account creation
-                        onDismiss()
+                        authViewModel.createAccount(name, newUsername, newPassword) { success, message ->
+                            if (success) {
+                                onDismiss()
+                            } else {
+                                errorMessage = message
+                            }
+                        }
                     }) {
                         Text("Create")
                     }

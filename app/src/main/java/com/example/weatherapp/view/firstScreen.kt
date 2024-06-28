@@ -6,8 +6,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.weatherapp.functions.firstScreen.AuthTextFields
 import com.example.weatherapp.functions.firstScreen.CreateAccountDialog
+import com.example.weatherapp.viewModel.AuthViewModel
 
 @Composable
 fun FirstScreen(onAuthenticated: () -> Unit) {
@@ -15,6 +17,7 @@ fun FirstScreen(onAuthenticated: () -> Unit) {
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
+    val authViewModel: AuthViewModel = viewModel()
 
     Column(
         modifier = Modifier
@@ -55,6 +58,6 @@ fun FirstScreen(onAuthenticated: () -> Unit) {
     }
 
     if (showDialog) {
-        CreateAccountDialog(onDismiss = { showDialog = false })
+        CreateAccountDialog(onDismiss = { showDialog = false }, authViewModel = authViewModel)
     }
 }

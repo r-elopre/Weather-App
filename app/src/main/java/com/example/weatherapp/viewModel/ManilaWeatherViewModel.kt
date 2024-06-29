@@ -30,7 +30,7 @@ class ManilaWeatherViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = RetrofitInstance.api.getCurrentWeather(
-                    apiKey = "7f8b1a2307fb42fa8c2155134242206",
+                    apiKey = "put your api here",
                     location = "Manila"
                 )
                 _weatherData.value = response
